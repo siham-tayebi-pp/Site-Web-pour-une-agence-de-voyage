@@ -1,5 +1,6 @@
+<x-header/>
 @extends('layouts.app')
-{{-- <x-header /> --}}
+
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-12">
     <div class="flex flex-col md:flex-row gap-8">

@@ -1,5 +1,6 @@
-@extends('layouts.app')
 <x-header />
+@extends('layouts.app')
+
 @section('content')
 <div class="max-w-4xl mx-auto px-4 py-12">
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">

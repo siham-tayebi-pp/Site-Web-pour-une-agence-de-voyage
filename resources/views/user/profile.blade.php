@@ -1,3 +1,4 @@
+<x-header/>
 @extends('layouts.app')
 
 @section('content')
