@@ -14,7 +14,7 @@ include('../includes/header.php');
 
 <section class="admin-voyages">
     <h2>Liste des Voyages</h2>
-    <a href="ajouter_voyage.php" class="btn">➕ Ajouter un voyage</a>
+    <a href="ajouter_voyage.php" class="btn bg-primary">➕ Ajouter un voyage</a>
 
     <table id="voyagesTable" class="display nowrap" style="width:100%">
         <thead>
@@ -44,8 +44,8 @@ include('../includes/header.php');
             echo "<td>{$row['prix']} DH</td>";
             echo "<td>{$row['places_disponibles']}</td>";
             echo "<td>
-                    <a href='modifier_voyage.php?id={$row['id']}' class='btn-action btn-edit'>✏️</a>
-                    <a href='supprimer_voyage.php?id={$row['id']}' class='btn-action btn-delete' onclick=\"return confirm('Êtes-vous sûr de vouloir supprimer ce voyage?')\">❌</a>
+                    <a href='modifier_voyage.php?id={$row['id']}' class='btn btn-success'>✏️</a>
+                    <a href='supprimer_voyage.php?id={$row['id']}' class='btn bg-danger' onclick=\"return confirm('Êtes-vous sûr de vouloir supprimer ce voyage?')\">❌</a>
                   </td>";
             echo "</tr>";
         }

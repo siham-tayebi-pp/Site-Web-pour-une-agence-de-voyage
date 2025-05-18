@@ -11,7 +11,8 @@
 }
 
 .footer-top-border {
-    height: 4px;
+    height: 2px;
+    /* cetatit 4 */
     background: linear-gradient(90deg, #0056b3, #007BFF, #00a8ff);
     position: absolute;
     top: 0;
@@ -114,8 +115,8 @@
 
 .footer-bottom {
     text-align: center;
-    padding-top: 30px;
-    margin-top: 30px;
+    padding-top: 20px;
+    margin-top: 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.7);
@@ -183,8 +184,8 @@
             <!-- Section Logo et description -->
             <div class="footer-section">
                 <div class="footer-logo">
-                    <i class="fas fa-plane me-2"></i>
-                    Voyages Maroc
+
+                    🌍Voyages Maroc
                 </div>
                 <p style="opacity: 0.8; line-height: 1.6;">
                     Découvrez les merveilles du Maroc avec nos voyages exceptionnels et nos services haut de gamme.
@@ -198,7 +199,7 @@
             </div>
 
             <!-- Liens rapides -->
-            <div class="footer-section">
+            <!-- <div class="footer-section">
                 <div class="footer-links">
                     <h4>Liens rapides</h4>
                     <ul>
@@ -210,7 +211,7 @@
                         <li><a href="<?php echo $prefix; ?>contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Informations -->
             <div class="footer-section">

@@ -5,12 +5,12 @@ include('includes/header.php');
 ?>
 
 <!-- Hero Section -->
-<section class="hero-section bg-dark text-white position-relative">
-    <div class="container py-5">
+<section class=" bg-primary  text-white position-relative">
+    <div class=" container py-5">
         <div class="row align-items-center min-vh-50">
             <div class="col-lg-8 mx-auto text-center">
                 <h1 class="display-4 fw-bold mb-4">Découvrez nos voyages exceptionnels</h1>
-                <a href="#voyages" class="btn btn-primary btn-lg px-5 py-3">Explorer nos offres</a>
+                <a href="#voyages" class="btn btn-success btn-lg px-5 py-3">Explorer nos offres</a>
                 <p class="lead mb-5">Des expériences uniques à travers le Maroc, soigneusement sélectionnées pour vous
                 </p>
 
@@ -144,7 +144,7 @@ include('includes/header.php');
 </section>
 
 <!-- Newsletter Section -->
-<section class="bg-dark text-white py-5">
+<section class="bg-primary text-white py-5">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
@@ -155,7 +155,7 @@ include('includes/header.php');
                     <div class="col-md-8">
                         <div class="input-group input-group-lg">
                             <input type="email" class="form-control" placeholder="Votre adresse email" required>
-                            <button class="btn btn-primary" type="submit">S'abonner</button>
+                            <button class="btn btn-success" type="submit">S'abonner</button>
                         </div>
                     </div>
                 </form>

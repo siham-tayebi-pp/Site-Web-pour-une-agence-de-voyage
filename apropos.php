@@ -3,14 +3,14 @@ session_start();
 include('includes/header.php');
 ?>
 
-<!-- Hero Section À Propos -->
-<section class="about-hero bg-dark text-white position-relative overflow-hidden">
+<!-- Hero Section À Propos  about-hero-->
+<section class=" bg-primary text-white position-relative overflow-hidden">
     <div class="container py-5">
         <div class="row min-vh-50 align-items-center justify-content-center text-center">
             <div class="col-lg-8">
                 <h1 class="display-4 fw-bold mb-4">Notre Histoire</h1>
                 <p class="lead mb-5">Découvrez la passion qui nous anime depuis 2024</p>
-                <a href="#notre-mission" class="btn btn-primary btn-lg px-5 py-3 scroll-link">
+                <a href="#notre-mission" class="btn btn-success btn-lg px-5 py-3 scroll-link">
                     <i class="fas fa-arrow-down me-2"></i> Explorer
                 </a>
             </div>
@@ -165,7 +165,7 @@ include('includes/header.php');
 </section>
 
 <!-- Section CTA -->
-<section class="py-5 bg-dark text-white position-relative overflow-hidden">
+<section class="py-5 bg-primary text-white position-relative overflow-hidden">
     <div class="container position-relative z-index-1">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">

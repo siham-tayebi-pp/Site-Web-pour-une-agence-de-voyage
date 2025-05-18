@@ -40,21 +40,21 @@ include('../includes/header.php');
 ?>
 
 <section class="admin-users">
-  <h2>Gestion des utilisateurs</h2>
+    <h2>Gestion des utilisateurs</h2>
 
-  <table class="admin-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nom complet</th>
-        <th>Email</th>
-        <th>Rôle</th>
-        <th>Date inscription</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom complet</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Date inscription</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
      $res = $conn->query("SELECT * FROM utilisateur ORDER BY dateInscription DESC");
 
       while ($row = $res->fetch_assoc()) {
@@ -65,14 +65,12 @@ include('../includes/header.php');
         echo "<td>{$row['role']}</td>";
         echo "<td>{$row['dateInscription']}</td>";
         echo "<td>
-                <a href='utilisateurs.php?changer_role={$row['id']}' class='btn-role'>🔁 Rôle</a>
+                <a href='utilisateurs.php?changer_role={$row['id']}' class='btn btn-success'>🔁 Rôle</a>
                 <a href='utilisateurs.php?supprimer={$row['id']}' class='btn-delete' onclick=\"return confirm('Confirmer la suppression ?')\">🗑️ Supprimer</a>
               </td>";
         echo "</tr>";
       }
       ?>
-    </tbody>
-  </table>
+        </tbody>
+    </table>
 </section>
-
-

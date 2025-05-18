@@ -43,7 +43,7 @@ include('../includes/header.php');
                         <h2 class="h5 mb-0">
                             <i class="fas fa-comments me-2 px-4"></i>Gestion des avis
                         </h2>
-                        <a href="dashboard.php" class="btn btn-sm btn-light">
+                        <a href="dashboard.php" class="btn btn-sm btn-dark px-3">
                             <i class="fas fa-arrow-left me-1"></i> Retour
                         </a>
                     </div>
