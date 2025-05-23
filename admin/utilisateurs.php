@@ -21,6 +21,12 @@ if (isset($_GET['changer_role'])) {
     $update = $conn->prepare("UPDATE utilisateur SET role = ? WHERE id = ?");
     $update->bind_param("si", $nouveau_role, $id);
     $update->execute();
+    
+    // Message de succès
+    $_SESSION['flash_message'] = [
+      'type' => 'success',
+      'message' => "Rôle de l'utilisateur #$id changé en $nouveau_role"
+    ];
   }
   header("Location: utilisateurs.php");
   exit;
@@ -32,6 +38,13 @@ if (isset($_GET['supprimer'])) {
   $stmt = $conn->prepare("DELETE FROM utilisateur WHERE id = ?");
   $stmt->bind_param("i", $id);
   $stmt->execute();
+  
+  // Message de succès
+  $_SESSION['flash_message'] = [
+    'type' => 'success',
+    'message' => "Utilisateur #$id supprimé avec succès"
+  ];
+  
   header("Location: utilisateurs.php");
   exit;
 }
@@ -39,38 +52,193 @@ if (isset($_GET['supprimer'])) {
 include('../includes/header.php');
 ?>
 
-<section class="admin-users">
-    <h2>Gestion des utilisateurs</h2>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 
-    <table class="admin-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom complet</th>
-                <th>Email</th>
-                <th>Rôle</th>
-                <th>Date inscription</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-     $res = $conn->query("SELECT * FROM utilisateur ORDER BY dateInscription DESC");
+<style>
+.admin-container {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
 
-      while ($row = $res->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>{$row['id']}</td>";
-        echo "<td>{$row['nom']} {$row['prenom']}</td>";
-        echo "<td>{$row['email']}</td>";
-        echo "<td>{$row['role']}</td>";
-        echo "<td>{$row['dateInscription']}</td>";
-        echo "<td>
-                <a href='utilisateurs.php?changer_role={$row['id']}' class='btn btn-success'>🔁 Rôle</a>
-                <a href='utilisateurs.php?supprimer={$row['id']}' class='btn-delete' onclick=\"return confirm('Confirmer la suppression ?')\">🗑️ Supprimer</a>
-              </td>";
-        echo "</tr>";
-      }
-      ?>
-        </tbody>
-    </table>
-</section>
+.table-responsive {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.badge-admin {
+    background-color: #6610f2;
+}
+
+.badge-client {
+    background-color: #20c997;
+}
+
+.action-btns .btn {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.page-title {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+</style>
+
+<div class="admin-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-title">
+            <i class="fas fa-users-cog me-2"></i>Gestion des utilisateurs
+        </h2>
+        <div>
+            <a href="dashboard.php" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Retour au dashboard
+            </a>
+        </div>
+    </div>
+
+    <?php if (isset($_SESSION['flash_message'])): ?>
+    <div class="alert alert-<?= $_SESSION['flash_message']['type'] ?> alert-dismissible fade show" role="alert">
+        <?= $_SESSION['flash_message']['message'] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php unset($_SESSION['flash_message']); ?>
+    <?php endif; ?>
+
+    <div class="table-responsive">
+        <table id="usersTable" class="table table-hover table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nom complet</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Date inscription</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+        $res = $conn->query("SELECT * FROM utilisateur ORDER BY dateInscription DESC");
+        while ($row = $res->fetch_assoc()):
+        ?>
+                <tr>
+                    <td><?= $row['id'] ?></td>
+                    <td><?= htmlspecialchars($row['nom'] . ' ' . htmlspecialchars($row['prenom'])) ?></td>
+                    <td><?= htmlspecialchars($row['email']) ?></td>
+                    <td>
+                        <span
+                            class="badge rounded-pill <?= $row['role'] === 'admin' ? 'badge-admin' : 'badge-client' ?>">
+                            <?= $row['role'] ?>
+                        </span>
+                    </td>
+                    <td><?= date('d/m/Y H:i', strtotime($row['dateInscription'])) ?></td>
+                    <td class="action-btns">
+                        <button onclick="changeRole(<?= $row['id'] ?>)" class="btn btn-sm btn-outline-primary"
+                            title="Changer le rôle">
+                            <i class="fas fa-user-shield"></i>
+                        </button>
+                        <button onclick="confirmDelete(<?= $row['id'] ?>)" class="btn btn-sm btn-outline-danger"
+                            title="Supprimer">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+// Initialisation DataTable
+$(document).ready(function() {
+    $('#usersTable').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json'
+        },
+        responsive: true,
+        columnDefs: [{
+                responsivePriority: 1,
+                targets: 1
+            }, // Nom complet
+            {
+                responsivePriority: 2,
+                targets: -1
+            }, // Actions
+            {
+                orderable: false,
+                targets: -1
+            } // Désactiver le tri sur la colonne Actions
+        ]
+    });
+});
+
+// Fonction pour changer le rôle
+function changeRole(userId) {
+    Swal.fire({
+        title: 'Changer le rôle',
+        text: "Êtes-vous sûr de vouloir modifier le rôle de cet utilisateur ?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui, modifier',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `utilisateurs.php?changer_role=${userId}`;
+        }
+    });
+}
+
+// Fonction pour supprimer un utilisateur
+function confirmDelete(userId) {
+    Swal.fire({
+        title: 'Supprimer l\'utilisateur',
+        text: "Cette action est irréversible ! Confirmez-vous la suppression ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Oui, supprimer',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `utilisateurs.php?supprimer=${userId}`;
+        }
+    });
+}
+
+// Fermer automatiquement les alertes après 5 secondes
+$(document).ready(function() {
+    setTimeout(function() {
+        $('.alert').alert('close');
+    }, 5000);
+});
+</script>
+
+<?php include('../includes/footer.php'); ?>
