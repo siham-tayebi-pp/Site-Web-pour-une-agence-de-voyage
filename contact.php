@@ -169,6 +169,86 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </section>
+<!-- Section FAQ -->
+<section class="faq-section py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h3>Questions Fréquentes</h3>
+                <p class="text-muted">Trouvez rapidement les réponses à vos questions</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq1">
+                                Comment puis-je réserver un voyage ?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Vous pouvez réserver directement en ligne en consultant nos voyages, ou nous
+                                contacter pour un devis personnalisé. Notre équipe vous accompagne dans toutes les
+                                étapes de votre réservation.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq2">
+                                Quelles sont les conditions d'annulation ?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Les conditions d'annulation varient selon le type de voyage et la date de départ.
+                                Nous vous recommandons de souscrire une assurance annulation pour plus de
+                                flexibilité.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq3">
+                                Proposez-vous des voyages sur mesure ?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Oui, nous créons des voyages entièrement personnalisés selon vos envies, votre
+                                budget et vos contraintes. Contactez-nous pour discuter de votre projet.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq4">
+                                L'assurance voyage est-elle incluse ?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Une assurance de base est incluse dans tous nos voyages. Nous proposons également
+                                des assurances complémentaires pour une protection optimale.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
 <style>
 /* Styles personnalisés */

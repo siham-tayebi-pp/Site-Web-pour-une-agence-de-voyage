@@ -10,7 +10,6 @@ if ($_SESSION['user_role'] !== 'admin') {
   exit;
 }
 
-// تأكد من أن ID موجود
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
   $id = intval($_GET['id']);
 
@@ -27,12 +26,21 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     }
   }
 
-  // حذف الرحلة
+  // Supprimer les réservations liées
+  $stmt = $conn->prepare("DELETE FROM reservation WHERE voyage_id = ?");
+  $stmt->bind_param("i", $id);
+  $stmt->execute();
+
+  // Supprimer les avis liés
+  $stmt = $conn->prepare("DELETE FROM avis WHERE voyage_id = ?");
+  $stmt->bind_param("i", $id);
+  $stmt->execute();
+
+  // Supprimer le voyage
   $stmt = $conn->prepare("DELETE FROM voyage WHERE id = ?");
   $stmt->bind_param("i", $id);
   $stmt->execute();
 }
 
-// التوجيه نحو صفحة الرحلات
 header("Location: voyages.php");
 exit;

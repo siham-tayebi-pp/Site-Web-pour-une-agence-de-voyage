@@ -21,15 +21,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $prix = floatval($_POST['prix']);
   $places = intval($_POST['places_disponibles']);
 
-  // Gestion image
-  $imageName = '';
-  if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-    $imageName = basename($_FILES['image']['name']);
-    move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $imageName);
+  // Création du nom du dossier pour les images
+  $nomSrc = preg_replace('/[^a-z0-9]/', '-', strtolower($titre));
+$nomDest = preg_replace('/[^a-z0-9]/', '-', strtolower($destination));
+$dateDep = preg_replace('/[^0-9]/', '', $date_depart); // format YYYYMMDD
+
+$dossierImages = substr($nomSrc, 0, 20) . '-' . substr($nomDest, 0, 20) . '-' . $dateDep;
+
+  $dossierChemin = "../images/voyages/" . $dossierImages;
+
+  // Création du dossier s'il n'existe pas
+  if (!file_exists($dossierChemin)) {
+    mkdir($dossierChemin, 0755, true);
   }
 
+  // Gestion des images multiples
+  $imagesUploaded = false;
+  if (!empty($_FILES['images']['name'][0])) {
+    $imagesUploaded = true;
+    foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
+      $imageName = basename($_FILES['images']['name'][$key]);
+      $imagePath = $dossierChemin . "/" . $imageName;
+      
+      // Vérification du type de fichier
+      $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      $fileType = mime_content_type($tmp_name);
+      
+      if (in_array($fileType, $allowedTypes)) {
+        move_uploaded_file($tmp_name, $imagePath);
+      }
+    }
+  }
+
+  // Insertion dans la base de données
   $stmt = $conn->prepare("INSERT INTO voyage (titre, destination, description, date_depart, date_retour, prix, places_disponibles, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param("sssssdss", $titre, $destination, $description, $date_depart, $date_retour, $prix, $places, $imageName);
+  $stmt->bind_param("sssssdss", $titre, $destination, $description, $date_depart, $date_retour, $prix, $places, $dossierImages);
 
   if ($stmt->execute()) {
     $success = "Voyage ajouté avec succès.";
@@ -44,6 +70,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   } else {
     $error = "Erreur lors de l'ajout du voyage: " . $conn->error;
+    
+    // Suppression du dossier si l'insertion a échoué
+    if ($imagesUploaded && file_exists($dossierChemin)) {
+      array_map('unlink', glob("$dossierChemin/*"));
+      rmdir($dossierChemin);
+    }
   }
 }
 
@@ -175,12 +207,14 @@ include('../includes/header.php');
                                 </div>
                             </div>
 
-                            <!-- Image -->
+                            <!-- Images multiples -->
                             <div class="col-12">
                                 <div class="mb-4">
-                                    <label for="image" class="form-label">Image du voyage</label>
-                                    <input class="form-control" type="file" id="image" name="image" accept="image/*">
-                                    <div class="form-text">Format recommandé : JPEG/PNG, max 2MB</div>
+                                    <label for="images" class="form-label">Images du voyage (plusieurs
+                                        possibles)</label>
+                                    <input class="form-control" type="file" id="images" name="images[]" accept="image/*"
+                                        multiple>
+                                    <div class="form-text">Formats acceptés : JPEG, PNG, GIF - max 2MB par image</div>
                                 </div>
                             </div>
 

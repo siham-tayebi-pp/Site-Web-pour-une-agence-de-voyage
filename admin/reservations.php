@@ -1,5 +1,9 @@
 <?php
+
 session_start();
+ob_start(); // Active la mise en mémoire tampon de sortie
+// ob_start() en PHP sert à mettre en pause l'affichage 
+//des données pour pouvoir les modifier ou les enregistrer avant de les montrer à l'utilisateur.
 $admin = true;
 include('../includes/db.php');
 include('../includes/auth.php');
@@ -186,10 +190,7 @@ if (isset($_GET['action'], $_GET['id'], $_GET['user'], $_GET['voyage'])) {
         </div>
     </div>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert2 for confirmation dialogs -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {

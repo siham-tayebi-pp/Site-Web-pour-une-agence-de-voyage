@@ -32,22 +32,43 @@ include('../includes/header.php');
         </thead>
         <tbody>
             <?php
-        $result = $conn->query("SELECT * FROM voyage ORDER BY date_depart ASC");
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>{$row['id']}</td>";
-            echo "<td><img src='../images/{$row['image']}' class='img-thumbnail'></td>";
-            echo "<td>{$row['titre']}</td>";
-            echo "<td>{$row['destination']}</td>";
-            echo "<td>".date('d/m/Y', strtotime($row['date_depart']))."</td>";
-            echo "<td>".date('d/m/Y', strtotime($row['date_retour']))."</td>";
-            echo "<td>{$row['prix']} DH</td>";
-            echo "<td>{$row['places_disponibles']}</td>";
-            echo "<td>
-                    <a href='modifier_voyage.php?id={$row['id']}' class='btn btn-success'>✏️</a>
-                    <a href='supprimer_voyage.php?id={$row['id']}' class='btn bg-danger' onclick=\"return confirm('Êtes-vous sûr de vouloir supprimer ce voyage?')\">❌</a>
-                  </td>";
-            echo "</tr>";
+       $result = $conn->query("SELECT * FROM voyage ORDER BY date_depart ASC");
+while ($row = $result->fetch_assoc()) {
+    echo "<tr>";
+    echo "<td>{$row['id']}</td>";
+
+    // Récupérer le dossier d'images du voyage
+    $imageFolder = "../images/voyages/{$row['image']}/";
+    $firstImage = "";
+
+    // Vérifier que le dossier existe
+    if (is_dir($imageFolder)) {
+        // Chercher les fichiers d'image dans le dossier (jpg, jpeg, png, gif)
+        $images = glob($imageFolder . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+        if (!empty($images)) {
+            // Prendre la première image trouvée
+            $firstImage = $images[0];
+        }
+    }
+
+    if ($firstImage != "") {
+        echo "<td><img src='{$firstImage}' class='img-thumbnail' style='width: 100px; height: auto;'></td>";
+    } else {
+        echo "<td><span class='text-muted'>Aucune image</span></td>";
+    }
+
+    echo "<td>{$row['titre']}</td>";
+    echo "<td>{$row['destination']}</td>";
+    echo "<td>" . date('d/m/Y', strtotime($row['date_depart'])) . "</td>";
+    echo "<td>" . date('d/m/Y', strtotime($row['date_retour'])) . "</td>";
+    echo "<td>{$row['prix']} DH</td>";
+    echo "<td>{$row['places_disponibles']}</td>";
+    echo "<td>
+            <a href='modifier_voyage.php?id={$row['id']}' class='btn btn-success'>✏️</a>
+            <a href='supprimer_voyage.php?id={$row['id']}' class='btn bg-danger' onclick=\"return confirm('Êtes-vous sûr de vouloir supprimer ce voyage?')\">❌</a>
+          </td>";
+    echo "</tr>";
+
         }
         ?>
         </tbody>

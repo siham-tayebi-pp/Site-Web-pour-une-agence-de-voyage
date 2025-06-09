@@ -35,19 +35,26 @@ if (isset($_GET['changer_role'])) {
 // Suppression utilisateur
 if (isset($_GET['supprimer'])) {
   $id = intval($_GET['supprimer']);
+
+  // Supprimer les notifications liées à cet utilisateur
+  $stmt = $conn->prepare("DELETE FROM notification WHERE utilisateur_id = ?");
+  $stmt->bind_param("i", $id);
+  $stmt->execute();
+
+  // Puis supprimer l'utilisateur
   $stmt = $conn->prepare("DELETE FROM utilisateur WHERE id = ?");
   $stmt->bind_param("i", $id);
   $stmt->execute();
-  
-  // Message de succès
+
   $_SESSION['flash_message'] = [
     'type' => 'success',
     'message' => "Utilisateur #$id supprimé avec succès"
   ];
-  
+
   header("Location: utilisateurs.php");
   exit;
 }
+
 
 include('../includes/header.php');
 ?>
@@ -164,14 +171,6 @@ include('../includes/header.php');
 </div>
 
 <!-- Bootstrap JS Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 // Initialisation DataTable

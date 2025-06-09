@@ -1,6 +1,8 @@
 <?php if (session_status() === PHP_SESSION_NONE) { session_start(); } 
- $prefix=isset($admin) ? '../' : '' ;
-    $notif_non_lu=0; $notif_count=0; if (isset($_SESSION['user_id'])) { include_once($prefix . 'includes/db.php' ); if
+$prefix = isset($admin) ? '../' : '' ;
+
+    $notif_non_lu=0; $notif_count=0; if (isset($_SESSION['user_id'])) { include_once __DIR__ . '/db.php';
+  if
     ($_SESSION['user_role']==='client' ) { $stmtNotif=$conn->prepare("SELECT COUNT(*) as total FROM notification WHERE
     utilisateur_id = ? AND lu = 'non'");
     $stmtNotif->bind_param("i", $_SESSION['user_id']);

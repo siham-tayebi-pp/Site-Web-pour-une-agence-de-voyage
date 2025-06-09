@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <?php if ($success): ?>
     // Redirection après succès
     setTimeout(() => {
-        window.location.href = `../voyage_details.php?id=<?= $voyage_id ?>`;
+        window.location.href = `../details.php?id=<?= $voyage_id ?>`;
     }, 2000);
     <?php endif; ?>
 });

@@ -21,7 +21,7 @@ if (isset($_GET['supprimer'])) {
     'message' => "Message #$id supprimé avec succès"
   ];
   
-  header("Location: messages.php");
+  header("Location: message_contact.php");
   exit;
 }
 
@@ -37,7 +37,7 @@ if (isset($_GET['changer_statut'])) {
     'message' => "Statut du message #$id mis à jour"
   ];
   
-  header("Location: messages.php");
+  header("Location: message_contact.php");
   exit;
 }
 
@@ -185,15 +185,15 @@ include('../includes/header.php');
     </div>
 </div>
 
-<!-- Bootstrap JS Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- jQuery -->
+<!-- Bootstrap JS Bundle with Popper <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- DataTables JS -->
+<!-- DataTables JS 
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- SweetAlert2 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
+
 
 <script>
 // Initialisation DataTable
@@ -243,14 +243,14 @@ function confirmDelete(messageId) {
         cancelButtonText: 'Annuler'
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = `messages.php?supprimer=${messageId}`;
+            window.location.href = `message_contact.php?supprimer=${messageId}`;
         }
     });
 }
 
 // Fonction pour changer le statut
 function changeStatus(messageId) {
-    window.location.href = `messages.php?changer_statut=${messageId}`;
+    window.location.href = `message_contact.php?changer_statut=${messageId}`;
 }
 
 // Fermer automatiquement les alertes après 5 secondes
